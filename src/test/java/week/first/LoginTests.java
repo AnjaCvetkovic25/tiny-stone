@@ -59,4 +59,39 @@ public class LoginTests {
 
         driver.close();
     }
+
+    @Test
+    public void negativeLoginTest(){
+        //List<String> usernames = Arrays.asList("standard_user", "locked_out_user", "problem_user", "performance_glitch_user", "error_user", "visual_user");
+        String username = "standard_user";
+        String password = "ragu_sauce";
+
+
+        FirefoxOptions options = new FirefoxOptions().setBinary("/usr/sbin/firefox");
+        WebDriverManager.firefoxdriver().setup();
+        WebDriver driver = new FirefoxDriver(options);
+
+        driver.get("https://www.saucedemo.com/");
+
+
+
+        WebElement usernameFieldCSS = driver.findElement(By.cssSelector("input[id='user-name']"));
+
+        WebElement passwordFieldCSS = driver.findElement(By.cssSelector("input[type='password']"));
+
+        //usernameFieldCSS.sendKeys("secret_sauce");
+
+        WebElement logInButtonCSS = driver.findElement(By.cssSelector("input[value='Login']"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+
+        usernameFieldCSS.sendKeys(username);
+        passwordFieldCSS.sendKeys(password);
+
+        logInButtonCSS.click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("error-message-container")));
+
+        driver.close();
+    }
 }
